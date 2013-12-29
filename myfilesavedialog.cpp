@@ -90,7 +90,7 @@ void MyFileSaveDialog::open()
 
     QString homePath = QDir::homePath();
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
-    QUrl homeUrl(QStringLiteral("file://") + homePath);
+    QUrl homeUrl = QUrl::fromLocalFile(homePath);
     m_dlgHelper->setDirectory(homeUrl);
 #else
     m_dlgHelper->setDirectory(homePath);
@@ -133,7 +133,7 @@ void MyFileSaveDialog::accept()
     QStringList selectedFiles = m_dlgHelper->selectedFiles();
     if ( selectedFiles.count() )
     {
-        setFileUrl(QUrl(QStringLiteral("file://") + selectedFiles.at(0)));
+        setFileUrl(QUrl::fromLocalFile(selectedFiles.at(0)));
     }
 #endif
 
