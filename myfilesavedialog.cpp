@@ -1,4 +1,5 @@
 #include <QQuickWindow>
+#include <QDebug>
 
 #include "myfilesavedialog.h"
 
@@ -7,6 +8,12 @@ MyFileSaveDialog::MyFileSaveDialog(QQuickItem *parent) :
   , m_modality(Qt::WindowModal)
   , m_options(QSharedPointer<QFileDialogOptions>(new QFileDialogOptions()))
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
+    qDebug() << "Working with Qt 5.2";
+#else
+    qDebug() << "Working with Qt 5.1";
+#endif
+
     m_dlgHelper = init_helper();
 
     connect(m_dlgHelper, SIGNAL(accept()), this, SLOT(accept()));
