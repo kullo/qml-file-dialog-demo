@@ -103,14 +103,6 @@ void MyFileSaveDialog::open()
     m_dlgHelper->setDirectory(homePath);
 #endif
 
-#ifndef Q_OS_LINUX
-    #if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
-        m_dlgHelper->selectFile(QUrl::fromLocalFile(filename()));
-    #else
-        m_dlgHelper->selectFile(filename());
-    #endif
-#endif
-
     m_dlgHelper->setOptions(m_options);
     m_dlgHelper->setFilter(); // applyOptions();
 
@@ -118,6 +110,14 @@ void MyFileSaveDialog::open()
     if (!title().isEmpty()) flags |= Qt::WindowTitleHint;
 
     m_visible = m_dlgHelper->show(flags, m_modality, m_parentWindow);
+
+#ifndef Q_OS_LINUX
+    #if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
+        m_dlgHelper->selectFile(QUrl::fromLocalFile(filename()));
+    #else
+        m_dlgHelper->selectFile(filename());
+    #endif
+#endif
 }
 
 void MyFileSaveDialog::close()
