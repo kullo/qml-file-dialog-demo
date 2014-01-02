@@ -105,7 +105,7 @@ void MyFileSaveDialog::open()
 
 #ifndef Q_OS_LINUX
     #if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
-        m_dlgHelper->selectFile(QUrl(filename()));
+        m_dlgHelper->selectFile(QUrl::fromLocalFile(filename()));
     #else
         m_dlgHelper->selectFile(filename());
     #endif
