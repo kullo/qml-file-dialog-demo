@@ -94,7 +94,6 @@ void MyFileSaveDialog::open()
     m_options->setFileMode(QFileDialogOptions::AnyFile);
     m_options->setAcceptMode(QFileDialogOptions::AcceptSave);
     m_options->setWindowTitle(title());
-
 #ifdef Q_OS_OSX
     // Mac: Set filename incl. directory via setInitiallySelectedFiles()
     QString initialSelection = QFileInfo(QDir::homePath(), filename()).absoluteFilePath();
