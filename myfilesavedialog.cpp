@@ -108,7 +108,7 @@ void MyFileSaveDialog::open()
      * filename empty, since QGtk2FileDialogHelper can not set non-existing filenames.
      *
      */
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACX // Use Q_OS_MACX for Qt 5.1+ code and Q_OS_OSX for Qt 5.2+ code.
     QString initialSelection = QFileInfo(QDir::homePath(), filename()).absoluteFilePath();
     qDebug() << "Initial file:" << initialSelection;
     #if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
