@@ -94,12 +94,44 @@ void MyFileSaveDialog::open()
     m_options->setFileMode(QFileDialogOptions::AnyFile);
     m_options->setAcceptMode(QFileDialogOptions::AcceptSave);
     m_options->setWindowTitle(title());
+
+    /*
+     * Mac:
+     * Set filename incl. directory via setInitiallySelectedFiles()
+     *
+     * Windows:
+     * Set filename via setInitiallySelectedFiles() and let Windows choose the directory.
+     * Default directory: C:\\Users\XYZ\Downloads
+     *
+     * Gnome:
+     * Set directory via QPlatformFileDialogHelper::setDirectory() and leave
+     * filename empty, since QGtk2FileDialogHelper can not set non-existing filenames.
+     *
+     */
 #ifdef Q_OS_OSX
-    // Mac: Set filename incl. directory via setInitiallySelectedFiles()
     QString initialSelection = QFileInfo(QDir::homePath(), filename()).absoluteFilePath();
-    qDebug() << "Initial file: " << initialSelection;
-    // TODO: make Qt 5.1 compatible
-    m_options->setInitiallySelectedFiles(QList<QUrl>() << QUrl::fromLocalFile(initialSelection));
+    qDebug() << "Initial file:" << initialSelection;
+    #if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
+        m_options->setInitiallySelectedFiles(QList<QUrl>() << QUrl::fromLocalFile(initialSelection));
+    #else
+        m_options->setInitiallySelectedFiles(QStringList(initialSelection));
+    #endif
+#endif
+#ifdef Q_OS_WIN
+    qDebug() << "Initial filename:" << filename();
+    #if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
+        m_options->setInitiallySelectedFiles(QList<QUrl>() << QUrl::fromLocalFile(filename()));
+    #else
+        m_options->setInitiallySelectedFiles(QStringList(filename()));
+    #endif
+#endif
+#ifdef Q_OS_LINUX
+    qDebug() << "Initial directory:" << QDir::homePath();
+    #if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
+        m_dlgHelper->setDirectory(QUrl::fromLocalFile(QDir::homePath()));
+    #else
+        m_dlgHelper->setDirectory(QDir::homePath());
+    #endif
 #endif
 
     m_dlgHelper->setOptions(m_options);
@@ -109,22 +141,6 @@ void MyFileSaveDialog::open()
     if (!title().isEmpty()) flags |= Qt::WindowTitleHint;
 
     m_visible = m_dlgHelper->show(flags, m_modality, m_parentWindow);
-
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
-    QUrl homeUrl = QUrl::fromLocalFile(QDir::homePath());
-    m_dlgHelper->setDirectory(homeUrl);
-#else
-    QString homePath = QDir::homePath();
-    m_dlgHelper->setDirectory(homePath);
-#endif
-
-#ifndef Q_OS_LINUX
-    #if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
-        m_dlgHelper->selectFile(QUrl::fromLocalFile(filename()));
-    #else
-        m_dlgHelper->selectFile(filename());
-    #endif
-#endif
 }
 
 void MyFileSaveDialog::close()
