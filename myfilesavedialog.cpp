@@ -95,6 +95,14 @@ void MyFileSaveDialog::open()
     m_options->setAcceptMode(QFileDialogOptions::AcceptSave);
     m_options->setWindowTitle(title());
 
+#ifdef Q_OS_OSX
+    // Mac: Set filename incl. directory via setInitiallySelectedFiles()
+    QString initialSelection = QFileInfo(QDir::homePath(), filename()).absoluteFilePath();
+    qDebug() << "Initial file: " << initialSelection;
+    // TODO: make Qt 5.1 compatible
+    m_options->setInitiallySelectedFiles(QList<QUrl>() << QUrl::fromLocalFile(initialSelection));
+#endif
+
     m_dlgHelper->setOptions(m_options);
     m_dlgHelper->setFilter(); // applyOptions();
 
