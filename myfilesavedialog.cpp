@@ -80,10 +80,7 @@ QPlatformFileDialogHelper* MyFileSaveDialog::init_helper()
 
 void MyFileSaveDialog::open()
 {
-    QQuickItem *me = this;
-    Q_ASSERT(me);
-
-    QQuickItem *parent = me->parentItem();
+    QQuickItem *parent = this->parentItem();
     Q_ASSERT(parent);
 
     QQuickWindow *window = parent->window();
