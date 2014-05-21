@@ -1,5 +1,5 @@
-#ifndef MYFILESAVEDIALOG_H
-#define MYFILESAVEDIALOG_H
+#ifndef FILESAVEDIALOG_H
+#define FILESAVEDIALOG_H
 
 #include <QQuickItem>
 #include <QFileDialog>
@@ -8,12 +8,12 @@
 #include <QtGui/qpa/qplatformdialoghelper.h>
 #include <QtGui/qpa/qplatformtheme.h>
 
-class MyFileSaveDialog : public QQuickItem
+class FileSaveDialog : public QQuickItem
 {
     Q_OBJECT
 public:
-    explicit MyFileSaveDialog(QQuickItem *parent = 0);
-    ~MyFileSaveDialog();
+    explicit FileSaveDialog(QQuickItem *parent = 0);
+    ~FileSaveDialog();
 
     Q_PROPERTY(QUrl fileUrl READ fileUrl NOTIFY fileUrlChanged)
     QUrl fileUrl() const;
@@ -58,7 +58,7 @@ private:
     QString filename_;
     QString title_;
 
-    Q_DISABLE_COPY(MyFileSaveDialog)
+    Q_DISABLE_COPY(FileSaveDialog)
 };
 
-#endif // MYFILESAVEDIALOG_H
+#endif // FILESAVEDIALOG_H

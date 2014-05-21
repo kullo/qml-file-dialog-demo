@@ -1,12 +1,12 @@
 #include "qtquick2controlsapplicationviewer.h"
 
-#include "myfilesavedialog.h"
+#include "filesavedialog.h"
 
 int main(int argc, char *argv[])
 {
     Application app(argc, argv);
 
-    qmlRegisterType<MyFileSaveDialog>("MyModules", 1, 0, "MyFileSaveDialog");
+    qmlRegisterType<FileSaveDialog>("MyModules", 1, 0, "FileSaveDialog");
 
     QtQuick2ControlsApplicationViewer viewer;
     viewer.setMainQmlFile(QStringLiteral("qml/file-dialog-demo/main.qml"));

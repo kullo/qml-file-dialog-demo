@@ -1,9 +1,9 @@
 #include <QQuickWindow>
 #include <QDebug>
 
-#include "myfilesavedialog.h"
+#include "filesavedialog.h"
 
-MyFileSaveDialog::MyFileSaveDialog(QQuickItem *parent) :
+FileSaveDialog::FileSaveDialog(QQuickItem *parent) :
     QQuickItem(parent)
   , m_modality(Qt::WindowModal)
   , m_options(QSharedPointer<QFileDialogOptions>(new QFileDialogOptions()))
@@ -20,19 +20,19 @@ MyFileSaveDialog::MyFileSaveDialog(QQuickItem *parent) :
     connect(m_dlgHelper, SIGNAL(reject()), this, SLOT(reject()));
 }
 
-MyFileSaveDialog::~MyFileSaveDialog()
+FileSaveDialog::~FileSaveDialog()
 {
     if (m_dlgHelper)
         m_dlgHelper->hide();
     delete m_dlgHelper;
 }
 
-QUrl MyFileSaveDialog::fileUrl() const
+QUrl FileSaveDialog::fileUrl() const
 {
     return fileUrl_;
 }
 
-void MyFileSaveDialog::setFileUrl(QUrl fileUrl)
+void FileSaveDialog::setFileUrl(QUrl fileUrl)
 {
     if (fileUrl_ != fileUrl)
     {
@@ -41,12 +41,12 @@ void MyFileSaveDialog::setFileUrl(QUrl fileUrl)
     }
 }
 
-QString MyFileSaveDialog::filename() const
+QString FileSaveDialog::filename() const
 {
     return filename_;
 }
 
-void MyFileSaveDialog::setFilename(QString filename)
+void FileSaveDialog::setFilename(QString filename)
 {
     if (filename_ != filename)
     {
@@ -55,12 +55,12 @@ void MyFileSaveDialog::setFilename(QString filename)
     }
 }
 
-QString MyFileSaveDialog::title() const
+QString FileSaveDialog::title() const
 {
     return title_;
 }
 
-void MyFileSaveDialog::setTitle(QString title)
+void FileSaveDialog::setTitle(QString title)
 {
     if (title_ != title)
     {
@@ -69,7 +69,7 @@ void MyFileSaveDialog::setTitle(QString title)
     }
 }
 
-QPlatformFileDialogHelper* MyFileSaveDialog::init_helper()
+QPlatformFileDialogHelper* FileSaveDialog::init_helper()
 {
     m_dlgHelper = static_cast<QPlatformFileDialogHelper*>(QGuiApplicationPrivate::platformTheme()->createPlatformDialogHelper(QPlatformTheme::FileDialog));
     if (!m_dlgHelper)
@@ -78,7 +78,7 @@ QPlatformFileDialogHelper* MyFileSaveDialog::init_helper()
     return m_dlgHelper;
 }
 
-void MyFileSaveDialog::open()
+void FileSaveDialog::open()
 {
     QQuickItem *parent = this->parentItem();
     Q_ASSERT(parent);
@@ -140,13 +140,13 @@ void MyFileSaveDialog::open()
     m_visible = m_dlgHelper->show(flags, m_modality, m_parentWindow);
 }
 
-void MyFileSaveDialog::close()
+void FileSaveDialog::close()
 {
     m_dlgHelper->hide();
     m_visible = false;
 }
 
-void MyFileSaveDialog::accept()
+void FileSaveDialog::accept()
 {
     m_dlgHelper->hide();
 
@@ -167,7 +167,7 @@ void MyFileSaveDialog::accept()
     emit accepted();
 }
 
-void MyFileSaveDialog::reject()
+void FileSaveDialog::reject()
 {
     m_dlgHelper->hide();
     emit rejected();

@@ -7,7 +7,7 @@ ApplicationWindow {
     width: 600
     height: 300
 
-    MyFileSaveDialog {
+    FileSaveDialog {
         id: saveFile
         title: "Save file"
         filename: "download.png"
