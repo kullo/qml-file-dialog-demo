@@ -7,25 +7,36 @@ ApplicationWindow {
     width: 600
     height: 300
 
+    FileOpenDialog {
+        id: openFile
+        title: "Open file"
+
+        onAccepted: outputOpenFile.text = "File selected: " + openFile.fileUrl
+        onRejected: outputOpenFile.text = "File selected: –"
+    }
+
     FileSaveDialog {
         id: saveFile
         title: "Save file"
         filename: "download.png"
 
-        onAccepted: {
-            output.text = "File selected: " + saveFile.fileUrl
-        }
-        onRejected: {
-            output.text = "File selected: –"
-        }
+        onAccepted: outputSaveFile.text = "File selected: " + saveFile.fileUrl
+        onRejected: outputSaveFile.text = "File selected: –"
     }
 
     Column {
+        spacing: 20
+
         Button {
-            text: "Select File"
+            text: "Open File"
+            onClicked: { openFile.open(); }
+        }
+        Text { id: outputOpenFile }
+
+        Button {
+            text: "Save File"
             onClicked: { saveFile.open(); }
         }
-
-        Text { id: output }
+        Text { id: outputSaveFile }
     }
 }

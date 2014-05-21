@@ -10,6 +10,7 @@ QML_IMPORT_PATH =
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
+    fileopendialog.cpp \
     filesavedialog.cpp
 
 # Installation path
@@ -20,4 +21,5 @@ include(qtquick2controlsapplicationviewer/qtquick2controlsapplicationviewer.pri)
 qtcAddDeployment()
 
 HEADERS += \
+    fileopendialog.h \
     filesavedialog.h
