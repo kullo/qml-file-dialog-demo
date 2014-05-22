@@ -25,6 +25,15 @@ QUrl FileOpenDialog::fileUrl() const
     return fileUrl_;
 }
 
+void FileOpenDialog::setFileUrl(QUrl fileUrl)
+{
+    if (fileUrl_ != fileUrl)
+    {
+        fileUrl_ = fileUrl;
+        emit fileUrlChanged();
+    }
+}
+
 QString FileOpenDialog::filename() const
 {
     return filename_;
@@ -155,13 +164,4 @@ void FileOpenDialog::reject()
 {
     m_dlgHelper->hide();
     emit rejected();
-}
-
-void FileOpenDialog::setFileUrl(QUrl fileUrl)
-{
-    if (fileUrl_ != fileUrl)
-    {
-        fileUrl_ = fileUrl;
-        emit fileUrlChanged();
-    }
 }
