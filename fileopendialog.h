@@ -52,7 +52,6 @@ protected Q_SLOTS:
 
 private:
     void setFileUrl(QUrl fileUrl);
-    void setFilePath(QString path);
 
     QFileDialog *dialog_;
     QUrl fileUrl_;
