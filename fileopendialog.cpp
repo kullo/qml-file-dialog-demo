@@ -1,6 +1,7 @@
-#include <QQuickWindow>
-
 #include "fileopendialog.h"
+
+#include <QDebug>
+#include <QQuickWindow>
 
 FileOpenDialog::FileOpenDialog(QQuickItem *parent) :
     QQuickItem(parent)
