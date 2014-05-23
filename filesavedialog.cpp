@@ -8,12 +8,6 @@ FileSaveDialog::FileSaveDialog(QQuickItem *parent) :
   , m_modality(Qt::WindowModal)
   , m_options(QSharedPointer<QFileDialogOptions>(new QFileDialogOptions()))
 {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
-    qDebug() << "Working with Qt 5.2";
-#else
-    qDebug() << "Working with Qt 5.1";
-#endif
-
     m_dlgHelper = init_helper();
 
     connect(m_dlgHelper, SIGNAL(accept()), this, SLOT(accept()));
@@ -105,30 +99,18 @@ void FileSaveDialog::open()
      * filename empty, since QGtk2FileDialogHelper can not set non-existing filenames.
      *
      */
-#ifdef Q_OS_MACX // Use Q_OS_MACX for Qt 5.1+ code and Q_OS_OSX for Qt 5.2+ code.
+#ifdef Q_OS_OSX
     QString initialSelection = QFileInfo(QDir::homePath(), filename()).absoluteFilePath();
     qDebug() << "Initial file:" << initialSelection;
-    #if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
-        m_options->setInitiallySelectedFiles(QList<QUrl>() << QUrl::fromLocalFile(initialSelection));
-    #else
-        m_options->setInitiallySelectedFiles(QStringList(initialSelection));
-    #endif
+    m_options->setInitiallySelectedFiles(QList<QUrl>() << QUrl::fromLocalFile(initialSelection));
 #endif
 #ifdef Q_OS_WIN
     qDebug() << "Initial filename:" << filename();
-    #if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
-        m_options->setInitiallySelectedFiles(QList<QUrl>() << QUrl::fromLocalFile(filename()));
-    #else
-        m_options->setInitiallySelectedFiles(QStringList(filename()));
-    #endif
+    m_options->setInitiallySelectedFiles(QList<QUrl>() << QUrl::fromLocalFile(filename()));
 #endif
 #ifdef Q_OS_LINUX
     qDebug() << "Initial directory:" << QDir::homePath();
-    #if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
-        m_dlgHelper->setDirectory(QUrl::fromLocalFile(QDir::homePath()));
-    #else
-        m_dlgHelper->setDirectory(QDir::homePath());
-    #endif
+    m_dlgHelper->setDirectory(QUrl::fromLocalFile(QDir::homePath()));
 #endif
 
     m_dlgHelper->setOptions(m_options);
@@ -150,19 +132,11 @@ void FileSaveDialog::accept()
 {
     m_dlgHelper->hide();
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
     QList<QUrl> selectedUrls = m_dlgHelper->selectedFiles();
     if ( selectedUrls.count() )
     {
         setFileUrl(selectedUrls.at(0));
     }
-#else
-    QStringList selectedFiles = m_dlgHelper->selectedFiles();
-    if ( selectedFiles.count() )
-    {
-        setFileUrl(QUrl::fromLocalFile(selectedFiles.at(0)));
-    }
-#endif
 
     emit accepted();
 }
