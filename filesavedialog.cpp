@@ -10,8 +10,10 @@ FileSaveDialog::FileSaveDialog(QQuickItem *parent) :
 {
     m_dlgHelper = init_helper();
 
-    connect(m_dlgHelper, SIGNAL(accept()), this, SLOT(accept()));
-    connect(m_dlgHelper, SIGNAL(reject()), this, SLOT(reject()));
+    connect(m_dlgHelper, &QPlatformFileDialogHelper::accept,
+            this, &FileSaveDialog::accept);
+    connect(m_dlgHelper, &QPlatformFileDialogHelper::reject,
+            this, &FileSaveDialog::reject);
 }
 
 FileSaveDialog::~FileSaveDialog()
