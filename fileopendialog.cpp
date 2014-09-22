@@ -139,7 +139,7 @@ void FileOpenDialog::accept()
     m_dlgHelper->hide();
 
     QList<QUrl> selectedUrls = m_dlgHelper->selectedFiles();
-    if ( selectedUrls.count() )
+    if (!selectedUrls.empty())
     {
         setFileUrl(selectedUrls.at(0));
     }
