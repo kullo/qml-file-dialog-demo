@@ -3,12 +3,16 @@
 #include <QDebug>
 #include <QQuickWindow>
 
-FileSaveDialog::FileSaveDialog(QQuickItem *parent) :
-    QQuickItem(parent)
-  , m_modality(Qt::WindowModal)
-  , m_options(QSharedPointer<QFileDialogOptions>(new QFileDialogOptions()))
+FileSaveDialog::FileSaveDialog(QQuickItem *parent)
+    : QQuickItem(parent)
+    , m_dlgHelper(init_helper())
+    , m_modality(Qt::WindowModal)
+    , m_options(QSharedPointer<QFileDialogOptions>(new QFileDialogOptions()))
 {
-    m_dlgHelper = init_helper();
+    if (!m_dlgHelper)
+    {
+        qFatal("m_dlgHelper is NULL in constructor FileSaveDialog::FileSaveDialog()");
+    }
 
     connect(m_dlgHelper, &QPlatformFileDialogHelper::accept,
             this, &FileSaveDialog::accept);
