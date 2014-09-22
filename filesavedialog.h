@@ -53,7 +53,6 @@ protected Q_SLOTS:
 private:
     void setFileUrl(QUrl fileUrl);
 
-    QFileDialog *dialog_;
     QUrl fileUrl_;
     QString filename_;
     QString title_;
