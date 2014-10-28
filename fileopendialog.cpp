@@ -71,11 +71,9 @@ void FileOpenDialog::setTitle(QString title)
 
 QPlatformFileDialogHelper* FileOpenDialog::init_helper()
 {
-    m_dlgHelper = static_cast<QPlatformFileDialogHelper*>(QGuiApplicationPrivate::platformTheme()->createPlatformDialogHelper(QPlatformTheme::FileDialog));
-    if (!m_dlgHelper)
-        return NULL;
-
-    return m_dlgHelper;
+    return static_cast<QPlatformFileDialogHelper*>(
+                QGuiApplicationPrivate::platformTheme()->createPlatformDialogHelper(QPlatformTheme::FileDialog)
+                );
 }
 
 void FileOpenDialog::open()
