@@ -36,12 +36,26 @@ QUrl FileOpenDialog::fileUrl() const
     return fileUrl_;
 }
 
+QList<QUrl> FileOpenDialog::fileUrls() const
+{
+    return fileUrls_;
+}
+
 void FileOpenDialog::setFileUrl(QUrl fileUrl)
 {
     if (fileUrl_ != fileUrl)
     {
         fileUrl_ = fileUrl;
         emit fileUrlChanged();
+    }
+}
+
+void FileOpenDialog::setFileUrls(QList<QUrl> fileUrls)
+{
+    if (fileUrls_ != fileUrls)
+    {
+        fileUrls_ = fileUrls;
+        emit fileUrlsChanged();
     }
 }
 
@@ -73,6 +87,20 @@ void FileOpenDialog::setTitle(QString title)
     }
 }
 
+bool FileOpenDialog::selectMultiple() const
+{
+    return selectMultiple_;
+}
+
+void FileOpenDialog::setSelectMultiple(bool selectMultiple)
+{
+    if (selectMultiple_ != selectMultiple)
+    {
+        selectMultiple_ = selectMultiple;
+        emit selectMultipleChanged();
+    }
+}
+
 QPlatformFileDialogHelper* FileOpenDialog::init_helper()
 {
     return static_cast<QPlatformFileDialogHelper*>(
@@ -92,7 +120,7 @@ void FileOpenDialog::open()
 
     m_parentWindow = window;
 
-    m_options->setFileMode(QFileDialogOptions::ExistingFile);
+    m_options->setFileMode(selectMultiple_ ? QFileDialogOptions::ExistingFiles : QFileDialogOptions::ExistingFile);
     m_options->setAcceptMode(QFileDialogOptions::AcceptOpen);
     m_options->setWindowTitle(title());
 
@@ -149,7 +177,12 @@ void FileOpenDialog::accept()
     QList<QUrl> selectedUrls = m_dlgHelper->selectedFiles();
     if (!selectedUrls.empty())
     {
-        setFileUrl(selectedUrls.at(0));
+        if (selectedUrls.size() == 1)
+            setFileUrl(selectedUrls.at(0));
+        else
+            setFileUrl();
+
+        setFileUrls(selectedUrls);
     }
 
     emit accepted();

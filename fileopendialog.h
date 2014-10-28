@@ -21,6 +21,9 @@ public:
     Q_PROPERTY(QUrl fileUrl READ fileUrl NOTIFY fileUrlChanged)
     QUrl fileUrl() const;
 
+    Q_PROPERTY(QList<QUrl> fileUrls READ fileUrls NOTIFY fileUrlsChanged)
+    QList<QUrl> fileUrls() const;
+
     Q_PROPERTY(QString filename READ filename WRITE setFilename NOTIFY filenameChanged)
     QString filename() const;
     void setFilename(QString filename);
@@ -29,15 +32,21 @@ public:
     QString title() const;
     void setTitle(QString title);
 
+    Q_PROPERTY(bool selectMultiple READ selectMultiple WRITE setSelectMultiple NOTIFY selectMultipleChanged)
+    bool selectMultiple() const;
+    void setSelectMultiple(bool selectMultiple);
+
     Q_INVOKABLE void open();
     Q_INVOKABLE void close();
 
 signals:
     void fileUrlChanged();
+    void fileUrlsChanged();
     void filenameChanged();
     void titleChanged();
     void accepted();
     void rejected();
+    void selectMultipleChanged();
 
     // unused
     void validChanged();
@@ -57,11 +66,14 @@ protected Q_SLOTS:
     virtual void reject();
 
 private:
-    void setFileUrl(QUrl fileUrl);
+    void setFileUrl(QUrl fileUrl = QUrl());
+    void setFileUrls(QList<QUrl> fileUrls = QList<QUrl>());
 
     QUrl fileUrl_;
+    QList<QUrl> fileUrls_;
     QString filename_;
     QString title_;
+    bool selectMultiple_;
 
     Q_DISABLE_COPY(FileOpenDialog)
 };
