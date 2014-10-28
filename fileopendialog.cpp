@@ -9,15 +9,13 @@ FileOpenDialog::FileOpenDialog(QQuickItem *parent)
     , m_modality(Qt::WindowModal)
     , m_options(QSharedPointer<QFileDialogOptions>(new QFileDialogOptions()))
 {
-    if (!m_dlgHelper)
+    if (valid())
     {
-        qFatal("m_dlgHelper is NULL in constructor FileOpenDialog::FileOpenDialog()");
+        connect(m_dlgHelper, &QPlatformFileDialogHelper::accept,
+                this, &FileOpenDialog::accept);
+        connect(m_dlgHelper, &QPlatformFileDialogHelper::reject,
+                this, &FileOpenDialog::reject);
     }
-
-    connect(m_dlgHelper, &QPlatformFileDialogHelper::accept,
-            this, &FileOpenDialog::accept);
-    connect(m_dlgHelper, &QPlatformFileDialogHelper::reject,
-            this, &FileOpenDialog::reject);
 }
 
 FileOpenDialog::~FileOpenDialog()
@@ -25,6 +23,12 @@ FileOpenDialog::~FileOpenDialog()
     if (m_dlgHelper)
         m_dlgHelper->hide();
     delete m_dlgHelper;
+}
+
+bool FileOpenDialog::valid() const
+{
+    if (m_dlgHelper) return true;
+    else return false;
 }
 
 QUrl FileOpenDialog::fileUrl() const
@@ -78,6 +82,8 @@ QPlatformFileDialogHelper* FileOpenDialog::init_helper()
 
 void FileOpenDialog::open()
 {
+    if (!valid()) return;
+
     QQuickItem *parent = this->parentItem();
     Q_ASSERT(parent);
 
@@ -128,12 +134,16 @@ void FileOpenDialog::open()
 
 void FileOpenDialog::close()
 {
+    if (!valid()) return;
+
     m_dlgHelper->hide();
     m_visible = false;
 }
 
 void FileOpenDialog::accept()
 {
+    if (!valid()) return;
+
     m_dlgHelper->hide();
 
     QList<QUrl> selectedUrls = m_dlgHelper->selectedFiles();
@@ -147,6 +157,8 @@ void FileOpenDialog::accept()
 
 void FileOpenDialog::reject()
 {
+    if (!valid()) return;
+
     m_dlgHelper->hide();
     emit rejected();
 }

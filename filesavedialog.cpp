@@ -10,15 +10,13 @@ FileSaveDialog::FileSaveDialog(QQuickItem *parent)
     , m_modality(Qt::WindowModal)
     , m_options(QSharedPointer<QFileDialogOptions>(new QFileDialogOptions()))
 {
-    if (!m_dlgHelper)
+    if (valid())
     {
-        qFatal("m_dlgHelper is NULL in constructor FileSaveDialog::FileSaveDialog()");
+        connect(m_dlgHelper, &QPlatformFileDialogHelper::accept,
+                this, &FileSaveDialog::accept);
+        connect(m_dlgHelper, &QPlatformFileDialogHelper::reject,
+                this, &FileSaveDialog::reject);
     }
-
-    connect(m_dlgHelper, &QPlatformFileDialogHelper::accept,
-            this, &FileSaveDialog::accept);
-    connect(m_dlgHelper, &QPlatformFileDialogHelper::reject,
-            this, &FileSaveDialog::reject);
 }
 
 FileSaveDialog::~FileSaveDialog()
@@ -26,6 +24,12 @@ FileSaveDialog::~FileSaveDialog()
     if (m_dlgHelper)
         m_dlgHelper->hide();
     delete m_dlgHelper;
+}
+
+bool FileSaveDialog::valid() const
+{
+    if (m_dlgHelper) return true;
+    else return false;
 }
 
 QUrl FileSaveDialog::fileUrl() const
@@ -79,6 +83,8 @@ QPlatformFileDialogHelper* FileSaveDialog::init_helper()
 
 void FileSaveDialog::open()
 {
+    if (!valid()) return;
+
     QQuickItem *parent = this->parentItem();
     Q_ASSERT(parent);
 
@@ -139,12 +145,16 @@ void FileSaveDialog::open()
 
 void FileSaveDialog::close()
 {
+    if (!valid()) return;
+
     m_dlgHelper->hide();
     m_visible = false;
 }
 
 void FileSaveDialog::accept()
 {
+    if (!valid()) return;
+
     m_dlgHelper->hide();
 
     QList<QUrl> selectedUrls = m_dlgHelper->selectedFiles();
@@ -158,6 +168,8 @@ void FileSaveDialog::accept()
 
 void FileSaveDialog::reject()
 {
+    if (!valid()) return;
+
     m_dlgHelper->hide();
     emit rejected();
 }

@@ -15,6 +15,9 @@ public:
     explicit FileSaveDialog(QQuickItem *parent = 0);
     ~FileSaveDialog();
 
+    Q_PROPERTY(bool valid READ valid NOTIFY validChanged)
+    bool valid() const;
+
     Q_PROPERTY(QUrl fileUrl READ fileUrl NOTIFY fileUrlChanged)
     QUrl fileUrl() const;
 
@@ -35,6 +38,9 @@ signals:
     void titleChanged();
     void accepted();
     void rejected();
+
+    // unused
+    void validChanged();
 
 protected:
     QPlatformFileDialogHelper* init_helper();
