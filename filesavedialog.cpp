@@ -2,6 +2,7 @@
 
 #include <QDebug>
 #include <QQuickWindow>
+#include <QStandardPaths>
 
 FileSaveDialog::FileSaveDialog(QQuickItem *parent)
     : QQuickItem(parent)
@@ -103,18 +104,28 @@ void FileSaveDialog::open()
      * filename empty, since QGtk2FileDialogHelper can not set non-existing filenames.
      *
      */
+    const QString folder = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
+    const QString name = filename();
+
 #ifdef Q_OS_OSX
-    QString initialSelection = QFileInfo(QDir::homePath(), filename()).absoluteFilePath();
+    QUrl initialSelection = QUrl::fromLocalFile(QFileInfo(folder, name).absoluteFilePath());
     qDebug() << "Initial file:" << initialSelection;
-    m_options->setInitiallySelectedFiles(QList<QUrl>() << QUrl::fromLocalFile(initialSelection));
+    m_options->setInitiallySelectedFiles(QList<QUrl>() << initialSelection);
 #endif
 #ifdef Q_OS_WIN
-    qDebug() << "Initial filename:" << filename();
-    m_options->setInitiallySelectedFiles(QList<QUrl>() << QUrl::fromLocalFile(filename()));
+    qDebug() << "Initial filename:" << name;
+    m_options->setInitiallySelectedFiles(QList<QUrl>() << QUrl::fromLocalFile(name));
 #endif
 #ifdef Q_OS_LINUX
-    qDebug() << "Initial directory:" << QDir::homePath();
-    m_dlgHelper->setDirectory(QUrl::fromLocalFile(QDir::homePath()));
+    #if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 2))
+    // Wohoo, big fix! https://codereview.qt-project.org/91501
+    QUrl initialSelection = QUrl::fromLocalFile(QFileInfo(folder, name).absoluteFilePath());
+    qDebug() << "Initial file:" << initialSelection;
+    m_options->setInitiallySelectedFiles(QList<QUrl>() << initialSelection);
+    #else
+    qDebug() << "Initial directory:" << folder;
+    m_dlgHelper->setDirectory(QUrl::fromLocalFile(folder));
+    #endif
 #endif
 
     m_dlgHelper->setOptions(m_options);
