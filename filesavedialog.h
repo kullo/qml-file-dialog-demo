@@ -1,5 +1,4 @@
-#ifndef FILESAVEDIALOG_H
-#define FILESAVEDIALOG_H
+#pragma once
 
 #include <QQuickItem>
 #include <QFileDialog>
@@ -11,6 +10,7 @@
 class FileSaveDialog : public QQuickItem
 {
     Q_OBJECT
+
 public:
     explicit FileSaveDialog(QQuickItem *parent = 0);
     ~FileSaveDialog();
@@ -65,5 +65,3 @@ private:
 
     Q_DISABLE_COPY(FileSaveDialog)
 };
-
-#endif // FILESAVEDIALOG_H

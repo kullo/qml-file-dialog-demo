@@ -1,5 +1,4 @@
-#ifndef FILEOPENDIALOG_H
-#define FILEOPENDIALOG_H
+#pragma once
 
 #include <QQuickItem>
 #include <QFileDialog>
@@ -11,6 +10,7 @@
 class FileOpenDialog : public QQuickItem
 {
     Q_OBJECT
+
 public:
     explicit FileOpenDialog(QQuickItem *parent = 0);
     ~FileOpenDialog();
@@ -77,5 +77,3 @@ private:
 
     Q_DISABLE_COPY(FileOpenDialog)
 };
-
-#endif // FILEOPENDIALOG_H
