@@ -1,5 +1,6 @@
 #include "fileopendialog.h"
 
+#include <QApplication>
 #include <QDebug>
 #include <QQuickWindow>
 
@@ -9,6 +10,13 @@ FileOpenDialog::FileOpenDialog(QQuickItem *parent)
     , m_modality(Qt::WindowModal)
     , m_options(QSharedPointer<QFileDialogOptions>(new QFileDialogOptions()))
 {
+    /*
+     * Qt Widgets support must be present, i.e. the main app is a QApplication.
+     * The following line break at compile time, if the main app is a QGuiApplication
+     */
+    QApplication *appHasQtWidgetsSupport = qobject_cast<QApplication *>(QCoreApplication::instance());
+    Q_ASSERT(appHasQtWidgetsSupport);
+
     if (valid())
     {
         connect(m_dlgHelper, &QPlatformFileDialogHelper::accept,
