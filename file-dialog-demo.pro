@@ -3,7 +3,9 @@ folder_01.source = qml/file-dialog-demo
 folder_01.target = qml
 DEPLOYMENTFOLDERS = folder_01
 
-QT += core-private gui-private
+QT += core-private
+QT += gui-private
+QT += widgets
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
