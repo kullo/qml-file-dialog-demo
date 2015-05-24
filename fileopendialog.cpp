@@ -16,6 +16,7 @@ FileOpenDialog::FileOpenDialog(QQuickItem *parent)
      */
     QApplication *appHasQtWidgetsSupport = qobject_cast<QApplication *>(QCoreApplication::instance());
     Q_ASSERT(appHasQtWidgetsSupport);
+    Q_UNUSED(appHasQtWidgetsSupport);
 
     if (valid())
     {
