@@ -10,7 +10,7 @@ ApplicationWindow {
     FileOpenDialog {
         id: openFile
         title: "Open file"
-        nameFilters: ["Images (*.png, *.jpg, *.jpeg)", "Documents (*.doc, *.docx)", "All files (*)"]
+        nameFilters: ["Images (*.png *.jpg *.jpeg)", "Documents (*.doc *.docx)", "All files (*)"]
 
         onAccepted: outputOpenFile.text = "File selected: " + openFile.fileUrl
         onRejected: outputOpenFile.text = "File selected: –"
