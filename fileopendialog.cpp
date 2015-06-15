@@ -96,6 +96,20 @@ void FileOpenDialog::setTitle(QString title)
     }
 }
 
+QStringList FileOpenDialog::nameFilters() const
+{
+    return nameFilters_;
+}
+
+void FileOpenDialog::setNameFilters(QStringList nameFilters)
+{
+    if (nameFilters_ != nameFilters)
+    {
+        nameFilters_ = nameFilters;
+        emit nameFiltersChanged();
+    }
+}
+
 bool FileOpenDialog::selectMultiple() const
 {
     return selectMultiple_;
@@ -132,6 +146,7 @@ void FileOpenDialog::open()
     m_options->setFileMode(selectMultiple_ ? QFileDialogOptions::ExistingFiles : QFileDialogOptions::ExistingFile);
     m_options->setAcceptMode(QFileDialogOptions::AcceptOpen);
     m_options->setWindowTitle(title());
+    m_options->setNameFilters(nameFilters());
 
     /*
      * Mac:

@@ -10,6 +10,7 @@ ApplicationWindow {
     FileOpenDialog {
         id: openFile
         title: "Open file"
+        nameFilters: ["Images (*.png *.jpg *.jpeg)", "Documents (*.doc *.docx)", "All files (*)"]
 
         onAccepted: outputOpenFile.text = "File selected: " + openFile.fileUrl
         onRejected: outputOpenFile.text = "File selected: –"
@@ -19,6 +20,7 @@ ApplicationWindow {
         id: saveFile
         title: "Save file"
         filename: "download.png"
+        nameFilters: ["Images (*.png)", "All files (*)"]
 
         onAccepted: outputSaveFile.text = "File selected: " + saveFile.fileUrl
         onRejected: outputSaveFile.text = "File selected: –"
