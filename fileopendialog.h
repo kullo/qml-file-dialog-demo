@@ -32,6 +32,10 @@ public:
     QString title() const;
     void setTitle(QString title);
 
+    Q_PROPERTY(QStringList nameFilters READ nameFilters WRITE setNameFilters NOTIFY nameFiltersChanged)
+    QStringList nameFilters() const;
+    void setNameFilters(QStringList nameFilters);
+
     Q_PROPERTY(bool selectMultiple READ selectMultiple WRITE setSelectMultiple NOTIFY selectMultipleChanged)
     bool selectMultiple() const;
     void setSelectMultiple(bool selectMultiple);
@@ -44,6 +48,7 @@ signals:
     void fileUrlsChanged();
     void filenameChanged();
     void titleChanged();
+    void nameFiltersChanged();
     void accepted();
     void rejected();
     void selectMultipleChanged();
@@ -73,6 +78,7 @@ private:
     QList<QUrl> fileUrls_;
     QString filename_;
     QString title_;
+    QStringList nameFilters_;
     bool selectMultiple_;
 
     Q_DISABLE_COPY(FileOpenDialog)

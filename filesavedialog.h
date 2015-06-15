@@ -29,6 +29,10 @@ public:
     QString title() const;
     void setTitle(QString title);
 
+    Q_PROPERTY(QStringList nameFilters READ nameFilters WRITE setNameFilters NOTIFY nameFiltersChanged)
+    QStringList nameFilters() const;
+    void setNameFilters(QStringList nameFilters);
+
     Q_INVOKABLE void open();
     Q_INVOKABLE void close();
 
@@ -36,6 +40,7 @@ signals:
     void fileUrlChanged();
     void filenameChanged();
     void titleChanged();
+    void nameFiltersChanged();
     void accepted();
     void rejected();
 
@@ -62,6 +67,7 @@ private:
     QUrl fileUrl_;
     QString filename_;
     QString title_;
+    QStringList nameFilters_;
 
     Q_DISABLE_COPY(FileSaveDialog)
 };

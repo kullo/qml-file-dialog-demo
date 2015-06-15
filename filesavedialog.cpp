@@ -83,6 +83,20 @@ void FileSaveDialog::setTitle(QString title)
     }
 }
 
+QStringList FileSaveDialog::nameFilters() const
+{
+    return nameFilters_;
+}
+
+void FileSaveDialog::setNameFilters(QStringList nameFilters)
+{
+    if (nameFilters_ != nameFilters)
+    {
+        nameFilters_ = nameFilters;
+        emit nameFiltersChanged();
+    }
+}
+
 QPlatformFileDialogHelper* FileSaveDialog::init_helper()
 {
     return static_cast<QPlatformFileDialogHelper*>(
@@ -105,6 +119,7 @@ void FileSaveDialog::open()
     m_options->setFileMode(QFileDialogOptions::AnyFile);
     m_options->setAcceptMode(QFileDialogOptions::AcceptSave);
     m_options->setWindowTitle(title());
+    m_options->setNameFilters(nameFilters());
 
     /*
      * Mac:
