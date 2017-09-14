@@ -1,3 +1,4 @@
+/* Copyright 2013–2017 Kullo GmbH. All rights reserved. */
 #include "fileopendialog.h"
 
 #include <QApplication>
@@ -8,7 +9,11 @@ FileOpenDialog::FileOpenDialog(QQuickItem *parent)
     : QQuickItem(parent)
     , m_dlgHelper(init_helper())
     , m_modality(Qt::WindowModal)
+    #if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
+    , m_options(QFileDialogOptions::create())
+    #else
     , m_options(QSharedPointer<QFileDialogOptions>(new QFileDialogOptions()))
+    #endif
 {
     /*
      * Qt Widgets support must be present, i.e. the main app is a QApplication.
