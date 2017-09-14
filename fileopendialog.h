@@ -80,7 +80,7 @@ private:
     QString filename_;
     QString title_;
     QStringList nameFilters_;
-    bool selectMultiple_;
+    bool selectMultiple_ = false;
 
     Q_DISABLE_COPY(FileOpenDialog)
 };
