@@ -19,5 +19,7 @@
 *.pro.user.*
 moc_*.cpp
 qrc_*.cpp
+*.qmlc
 Makefile
 *-build-*
+/build
