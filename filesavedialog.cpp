@@ -30,6 +30,10 @@ FileSaveDialog::FileSaveDialog(QQuickItem *parent)
                 this, &FileSaveDialog::accept);
         connect(m_dlgHelper, &QPlatformFileDialogHelper::reject,
                 this, &FileSaveDialog::reject);
+    }else{
+        qDebug() << "ERROR: The application needs gtk3 platform plugin";
+        qDebug() << "To automatically set gtk3 to QT_QPA_PLATFORMTHEME run the following at the command line";
+        qDebug() << "echo \"export QT_QPA_PLATFORMTHEME=gtk3\">> ~/.profile && source ~/.profile";
     }
 }
 
